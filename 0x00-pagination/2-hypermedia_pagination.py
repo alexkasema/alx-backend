@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-""" Simple pagination """
+""" Hypermedia pagination """
 
 import csv
-from typing import List, Tuple
+import math
+from typing import Dict, List, Tuple, Any
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -61,3 +62,28 @@ class Server:
             return []
 
         return dataset[start_index:end_index]
+
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
+        """
+        Get hypermedia pagination information
+        Args:
+            page: The page number (1-inexed).
+            page_size: The number of items per page.
+        Returns:
+            A dictionary containing pagination information
+        """
+
+        data = self.get_page(page, page_size)
+        total_items = len(self.dataset())
+        total_pages = math.ceil(total_items / page_size)
+
+        hyper_media = {
+            'page_size': len(data),
+            'page': page,
+            'data': data,
+            'next_page': page + 1 if page < total_pages else None,
+            'prev_page': page - 1 if page > 1 else None,
+            'total_pages': total_pages
+        }
+
+        return hyper_media
