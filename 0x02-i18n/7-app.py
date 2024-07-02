@@ -28,11 +28,11 @@ users = {
 }
 
 
-def get_user() -> Union[Dict | None]:
+def get_user() -> Union[Dict, None]:
     """ gets a user based on their id """
-    login_id = request.args.get('login_as')
+    login_id = request.args.get('login_as', '')
     if login_id:
-        return users.get(int(login_id))
+        return users.get(int(login_id), None)
     return None
 
 
