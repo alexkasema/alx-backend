@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Mock logging in """
+""" Use user locale """
 
 from flask_babel import Babel
 from flask import Flask, g, render_template, request
@@ -27,7 +27,7 @@ users = {
 }
 
 
-def get_user() -> Union[Dict, None]:
+def get_user() -> Union[Dict | None]:
     """ gets a user based on their id """
     login_id = request.args.get('login_as')
     if login_id:
@@ -45,16 +45,22 @@ def before_request() -> None:
 @babel.localeselector
 def get_locale() -> str:
     """ gets the language from the user accept header the browser transmits"""
-    locale = request.args.get('locale')
+    locale = request.args.get('locale', '')
     if locale in app.config['LANGUAGES']:
         return locale
+    if g.user and g.user['locale'] in app.config['LANGUAGES']:
+        return g.user['locale']
+    req_header_locale = request.headers.get('locale', '')
+    if req_header_locale in app.config['LANGUAGES']:
+        return req_header_locale
+
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route('/')
 def index() -> str:
     """The default route """
-    return render_template('5-index.html',)
+    return render_template('6-index.html',)
 
 
 if __name__ == '__main__':

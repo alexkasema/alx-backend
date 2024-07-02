@@ -46,3 +46,13 @@ In your HTML template, if a user is logged in, in a paragraph tag, display a wel
 msgid	English	French
 logged_in_as	"You are logged in as %(username)s."	"Vous êtes connecté en tant que %(username)s."
 not_logged_in	"You are not logged in."	"Vous n'êtes pas connecté."
+## 6-app.py, templates/6-index.html
+Change your get_locale function to use a user’s preferred local if it is supported.
+
+The order of priority should be
+
+Locale from URL parameters
+Locale from user settings
+Locale from request header
+Default locale
+Test by logging in as different users
