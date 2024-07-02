@@ -56,3 +56,12 @@ Locale from user settings
 Locale from request header
 Default locale
 Test by logging in as different users
+## 7-app.py, templates/7-index.html
+Define a get_timezone function and use the babel.timezoneselector decorator.
+
+The logic should be the same as get_locale:
+
+Find timezone parameter in URL parameters
+Find time zone from user settings
+Default to UTC
+Before returning a URL-provided or user time zone, you must validate that it is a valid time zone. To that, use pytz.timezone and catch the pytz.exceptions.UnknownTimeZoneError exception.
