@@ -19,4 +19,9 @@ Use Config to set Babel’s default locale ("en") and timezone ("UTC").
 Use that class as config for your Flask app.
 ## 2-app.py, templates/2-index.html
 Create a get_locale function with the babel.localeselector decorator. Use request.accept_languages to determine the best match with our supported languages.
+## 4-app.py, templates/4-index.html
+In this task, you will implement a way to force a particular locale by passing the locale=fr parameter to your app’s URLs.
 
+In your get_locale function, detect if the incoming request contains locale argument and ifs value is a supported locale, return it. If not or if the parameter is not present, resort to the previous default behavior.
+
+Now you should be able to test different translations by visiting http://127.0.0.1:5000?locale=[fr|en].
